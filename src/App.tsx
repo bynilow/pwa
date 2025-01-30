@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 import styled from 'styled-components'
+import './App.css'
 
 function App() {
   const [image, setImage] = useState('')
@@ -31,6 +29,7 @@ function App() {
         excludeAcceptAllOption: true,
         multiple: false,
       };
+      // @ts-ignore
       const [fileHandler] = await window.showOpenFilePicker(pickerOptions);
       const file = await fileHandler.getFile();
       const buffer = await file.arrayBuffer();
