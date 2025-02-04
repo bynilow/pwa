@@ -3,7 +3,13 @@ import styled from 'styled-components'
 import './App.css'
 
 function App() {
-  const [image, setImage] = useState('')
+
+  const [image, setImage] = useState('');
+  const [isSignIn, setIsSignIn] = useState(false);
+
+  const [usernameReg, setUsernameReg] = useState('');
+  const [username, setUsername] = useState('');
+  const [rawId, setRawId] = useState<any>('');
 
   const onClickNotification = () => {
     try {
@@ -51,6 +57,58 @@ function App() {
     }
   }
 
+  const SERVER_URL = 'http://localhost:3000';
+
+  const onLogin = async () => {
+    try {
+      const data = await navigator.credentials.get({
+        publicKey: {
+          challenge: new Uint8Array([0, 1, 2, 3, 4, 5, 6]),
+          allowCredentials: [
+            { type: 'public-key', id: rawId }
+          ]
+        }
+      })
+
+      if (data) {
+        setIsSignIn(true);
+      }
+    }
+    catch (error) {
+      console.log(error)
+    }
+
+  }
+
+  const onSignUp = async () => {
+    try {
+      const data = await navigator.credentials.create({
+        publicKey: {
+          challenge: new Uint8Array([0, 1, 2, 3, 4, 5, 6]),
+          rp: {
+            name: 'PWA'
+          },
+          user: {
+            id: new Uint8Array(16),
+            name: username,
+            displayName: username
+          },
+          pubKeyCredParams: [
+            { type: 'public-key', alg: -7 },
+            { type: 'public-key', alg: -8 },
+            { type: 'public-key', alg: -257 }
+          ]
+        }
+      });
+
+      setRawId(data?.id || '');
+    }
+    catch (error) {
+      console.log(error)
+    }
+
+  }
+
   useEffect(() => {
     if (navigator.serviceWorker) {
       registerSW();
@@ -66,7 +124,7 @@ function App() {
             src={image} />
         </Background>
       }
-      <Title>hello world!</Title>
+      <Title>PWA</Title>
       <ButtonsGroup>
         <Button onClick={onClickNotification}>
           Push notif
@@ -75,9 +133,54 @@ function App() {
           Get image
         </Button>
       </ButtonsGroup>
+
+      <Auth>
+        <Form>
+          <UserNameInput
+            value={username}
+            onChange={e => setUsername(e.target.value)} />
+          <ButtonsAuth>
+            <Button
+              onClick={onSignUp}>
+              Registration
+            </Button>
+            <Button
+              onClick={onLogin}>
+              Login
+            </Button>
+          </ButtonsAuth>
+        </Form>
+        {
+          isSignIn &&
+          <div>
+            secret info
+          </div>
+        }
+      </Auth>
     </Application>
   )
 }
+
+const ButtonsAuth = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const Auth = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`
+
+const UserNameInput = styled.input`
+  padding: 0.5rem;
+`
+
+const Form = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`
 
 const Image = styled.img`
   width: 100%;
