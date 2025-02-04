@@ -57,7 +57,7 @@ function App() {
     }
   }
 
-  const SERVER_URL = 'http://localhost:3000';
+  // const SERVER_URL = 'http://localhost:3000';
 
   const onLogin = async () => {
     try {
@@ -69,7 +69,6 @@ function App() {
           ]
         }
       })
-
       if (data) {
         setIsSignIn(true);
       }
@@ -100,8 +99,11 @@ function App() {
           ]
         }
       });
+      console.log(data)
+      ///@ts-ignore
+      setRawId(data.rawId);
 
-      setRawId(data?.id || '');
+      new Notification('registration succes');
     }
     catch (error) {
       console.log(error)
@@ -153,7 +155,7 @@ function App() {
         {
           isSignIn &&
           <div>
-            secret info
+            secret info / logged
           </div>
         }
       </Auth>
