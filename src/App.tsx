@@ -7,7 +7,6 @@ function App() {
   const [image, setImage] = useState('');
   const [isSignIn, setIsSignIn] = useState(false);
 
-  const [usernameReg, setUsernameReg] = useState('');
   const [username, setUsername] = useState('');
   const [rawId, setRawId] = useState<any>('');
 
