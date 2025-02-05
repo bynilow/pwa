@@ -15,6 +15,20 @@
             "type": "image/png"
         }
     ],
+    "screenshots": [
+        {
+            "src": "/screenshots/desktop.png",
+            "type": "image/png",
+            "sizes": "1920x917",
+            "form_factor": "wide"
+        },
+        {
+            "src": "/screenshots/mobile.png",
+            "type": "image/png",
+            "sizes": "476x843",
+            "form_factor": "narrow"
+        }
+    ],
     "orientation": "portrait",
     "display": "standalone",
     "dir": "auto",
