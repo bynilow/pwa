@@ -7,7 +7,7 @@ interface DynamicBlockProps {
 
 const DynamicBlock: FC<DynamicBlockProps> = () => {
 
-    const [isLoading, setIsLoading] = useState(false);
+    // const [isLoading, setIsLoading] = useState(false);
     const [posts, setPosts] = useState<any[]>([]);
 
     const getPosts = async () => {
