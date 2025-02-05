@@ -52,7 +52,8 @@ const Post = styled.div`
 const List = styled.div`
     display: flex;
     flex-direction: column;
-    max-height: 10rem;
+    max-height: 8rem;
+    overflow-y: auto;
 `
 
 const Title = styled.p`

@@ -1,10 +1,9 @@
-const staticCacheName = 's-4';
-const dynamicCacheName = 'd-4';
+const staticCacheName = 's-5';
+const dynamicCacheName = 'd-5';
 
 const assetsUrls = [
-    './index.html',
-    './src/main.tsx',
-    './src/index.css'
+    './src/index.html',
+    './src/index.css',
 ]
 
 self.addEventListener('install', async (event) => {
