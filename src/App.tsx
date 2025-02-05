@@ -51,7 +51,9 @@ function App() {
 
   const registerSW = async () => {
     try {
-      await navigator.serviceWorker.register('../sw.js');
+      await navigator.serviceWorker.register('../sw.js', {
+        scope: '/'
+      });
     }
     catch (error) {
       console.log(error)
