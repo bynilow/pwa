@@ -5,7 +5,7 @@ import App from './App.tsx'
 
 if (navigator.serviceWorker) {
   try {
-    await navigator.serviceWorker.register('../sw.js');
+    navigator.serviceWorker.register('../sw.js');
   }
   catch (error) {
     console.log(error)
