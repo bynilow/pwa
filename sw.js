@@ -2,7 +2,7 @@ const staticCacheName = 's-2';
 const dynamicCacheName = 'd-2';
 
 const assetsUrls = [
-    './src/index.html',
+    './index.html',
     './src/index.css'
 ]
 
