@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { ManifestOptions, VitePWA } from 'vite-plugin-pwa'
-import manifest from './src/manifest.json'
+import manifest from './manifest.json'
 
 // https://vite.dev/config/
 export default defineConfig({
