@@ -1,8 +1,9 @@
-const staticCacheName = 's-2';
-const dynamicCacheName = 'd-2';
+const staticCacheName = 's-3';
+const dynamicCacheName = 'd-3';
 
 const assetsUrls = [
     './index.html',
+    './src/main.tsx',
     './src/index.css'
 ]
 
