@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import './App.css'
+import StaticBlock from './static/StaticBlock';
+import DynamicBlock from './dynamic/DynamicBlock';
 
 function App() {
 
@@ -125,7 +127,13 @@ function App() {
             src={image} />
         </Background>
       }
+
       <Title>PWA</Title>
+
+      <StaticBlock />
+
+      <DynamicBlock />
+
       <ButtonsGroup>
         <Button onClick={onClickNotification}>
           Push notif
@@ -151,12 +159,14 @@ function App() {
             </Button>
           </ButtonsAuth>
         </Form>
+
         {
           isSignIn &&
           <div>
             secret info / logged
           </div>
         }
+
       </Auth>
     </Application>
   )
@@ -171,6 +181,9 @@ const Auth = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 1rem;
 `
 
 const UserNameInput = styled.input`
@@ -229,6 +242,9 @@ const Button = styled.button`
 const ButtonsGroup = styled.div`
   display: flex;
   gap: 1rem;
+  border: 1px solid black;
+  border-radius: 15px;
+  padding: 1rem;
 `
 
 const Title = styled.h1`
@@ -247,7 +263,7 @@ const Application = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5rem;
+  gap: 1rem;
 `
 
 export default App
