@@ -49,17 +49,6 @@ function App() {
     }
   }
 
-  const registerSW = async () => {
-    try {
-      await navigator.serviceWorker.register('../sw.js', {
-        scope: '/'
-      });
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
-
   // const SERVER_URL = 'http://localhost:3000';
 
   const onLogin = async () => {
@@ -113,12 +102,6 @@ function App() {
     }
 
   }
-
-  useEffect(() => {
-    if (navigator.serviceWorker) {
-      registerSW();
-    }
-  }, [])
 
   return (
     <Application>
