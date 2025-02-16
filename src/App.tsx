@@ -1,15 +1,13 @@
-import { useState } from 'react'
-import styled from 'styled-components'
-import './App.css'
+import { useState } from 'react';
+import styled from 'styled-components';
+import './App.css';
 import DynamicBlock from './dynamic/DynamicBlock';
-import { startRegistration, type WebAuthnCredential } from '@simplewebauthn/browser';
-import Registration from './registration/Registration';
 import Login from './login/Login';
+import Registration from './registration/Registration';
 
 function App() {
 
   const [image, setImage] = useState('');
-  const [isSignIn, setIsSignIn] = useState(false);
 
   const onClickNotification = () => {
     try {
@@ -82,14 +80,6 @@ function App() {
         && <Auth>
           <Registration />
           <Login />
-
-          {
-            isSignIn &&
-            <div>
-              secret info / logged
-            </div>
-          }
-
         </Auth>
       }
     </Application>
