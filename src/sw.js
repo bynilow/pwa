@@ -1,51 +1,69 @@
-const staticCacheName = 's-5';
-const dynamicCacheName = 'd-5';
+self.__WB_MANIFEST;
 
-const assetsUrls = [
-    './src/index.html',
-    './src/index.css',
-]
+import { precacheAndRoute } from 'workbox-precaching';
+import { CacheFirst, NetworkFirst } from 'workbox-strategies';
+import { registerRoute } from 'workbox-routing';
+import { ExpirationPlugin } from 'workbox-expiration';
+import { offlineFallback } from 'workbox-recipes';
+import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 
-self.addEventListener('install', async (event) => {
-    const cache = await caches.open(staticCacheName);
-    await cache.addAll(assetsUrls);
-})
+self.skipWaiting();
 
-self.addEventListener('activate', async (event) => {
-    const cacheNames = await caches.keys();
-    await Promise.all(
-        cacheNames
-            .filter(name => name !== staticCacheName)
-            .filter(name => name !== dynamicCacheName)
-            .map(name => caches.delete(name))
-    )
-})
+precacheAndRoute(self.__WB_MANIFEST);
 
-self.addEventListener('fetch', event => {
-    const { request } = event;
-    const url = new URL(request.url);
-    if (url.origin === location.origin) {
-        event.respondWith(cacheFirst(event.request));
-    } else {
-        event.respondWith(networkFirst(event.request));
-    }
+const imageCacheName = 'i-1';
+const dynamicCacheName = 'd-1';
+const staticCacheName = 's-1';
 
-})
+///кэш изображения
+registerRoute(
+    ({ request }) => request.destination === 'image',
+    new CacheFirst({
+        cacheName: imageCacheName,
+        plugins: [
+            new CacheableResponsePlugin({
+                statuses: [200]
+            }),
+            new ExpirationPlugin({
+                maxEntries: 30,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+            }),
+        ],
+    })
+);
 
+///кэш статики
+registerRoute(
+    ({ request }) => request.destination === 'image',
+    new CacheFirst({
+        cacheName: imageCacheName,
+        plugins: [
+            new ExpirationPlugin({
+                maxEntries: 30,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
+            }),
+        ],
+    })
+);
 
-const cacheFirst = async (request) => {
-    const cached = await caches.match(request);
-    return cached ?? await fetch(request)
-}
+///кэш динамика
+registerRoute(
+    ({ request }) => request.url,
+    new NetworkFirst({
+        cacheName: dynamicCacheName,
+        plugins: [
+            new ExpirationPlugin({
+                maxEntries: 100,
+                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 d
+            })
+        ]
+    })
+);
 
-const networkFirst = async (request) => {
-    const cache = await caches.open(dynamicCacheName);
-    try {
-        const response = await fetch(request);
-        await cache.put(request, response.clone());
-        return response
-    } catch (error) {
-        const cached = await caches.match(request);
-        return cached ?? 'offline'
-    }
-}
+offlineFallback({
+    pageFallback: '/offline.html',
+});
+
+registerRoute(
+    (request) => console.log(request)
+);

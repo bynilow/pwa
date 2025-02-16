@@ -32,7 +32,7 @@ const DynamicBlock: FC<DynamicBlockProps> = () => {
             </Title>
             <List>
                 {
-                    posts.map(post => <Post>
+                    posts.map((post, ind) => <Post key={ind}>
                         {
                             post.title
                         }

@@ -1,16 +1,15 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 import './App.css'
-import StaticBlock from './static/StaticBlock';
 import DynamicBlock from './dynamic/DynamicBlock';
+import { startRegistration, type WebAuthnCredential } from '@simplewebauthn/browser';
+import Registration from './registration/Registration';
+import Login from './login/Login';
 
 function App() {
 
   const [image, setImage] = useState('');
   const [isSignIn, setIsSignIn] = useState(false);
-
-  const [username, setUsername] = useState('');
-  const [rawId, setRawId] = useState<any>('');
 
   const onClickNotification = () => {
     try {
@@ -51,57 +50,6 @@ function App() {
 
   // const SERVER_URL = 'http://localhost:3000';
 
-  const onLogin = async () => {
-    try {
-      const data = await navigator.credentials.get({
-        publicKey: {
-          challenge: new Uint8Array([0, 1, 2, 3, 4, 5, 6]),
-          allowCredentials: [
-            { type: 'public-key', id: rawId }
-          ]
-        }
-      })
-      if (data) {
-        setIsSignIn(true);
-      }
-    }
-    catch (error) {
-      console.log(error)
-    }
-
-  }
-
-  const onSignUp = async () => {
-    try {
-      const data = await navigator.credentials.create({
-        publicKey: {
-          challenge: new Uint8Array([0, 1, 2, 3, 4, 5, 6]),
-          rp: {
-            name: 'PWA'
-          },
-          user: {
-            id: new Uint8Array(16),
-            name: username,
-            displayName: username
-          },
-          pubKeyCredParams: [
-            { type: 'public-key', alg: -7 },
-            { type: 'public-key', alg: -8 },
-            { type: 'public-key', alg: -257 }
-          ]
-        }
-      });
-      console.log(data)
-      ///@ts-ignore
-      setRawId(data.rawId);
-
-      new Notification('registration succes');
-    }
-    catch (error) {
-      console.log(error)
-    }
-
-  }
 
   return (
     <Application>
@@ -113,9 +61,10 @@ function App() {
         </Background>
       }
 
-      <Title>PWA</Title>
+      <CatImage
+        src='images/cat.png' />
 
-      <StaticBlock />
+      <Title>PWA</Title>
 
       <DynamicBlock />
 
@@ -128,57 +77,36 @@ function App() {
         </Button>
       </ButtonsGroup>
 
-      <Auth>
-        <Form>
-          <UserNameInput
-            value={username}
-            onChange={e => setUsername(e.target.value)} />
-          <ButtonsAuth>
-            <Button
-              onClick={onSignUp}>
-              Registration
-            </Button>
-            <Button
-              onClick={onLogin}>
-              Login
-            </Button>
-          </ButtonsAuth>
-        </Form>
+      {
+        navigator.credentials
+        && <Auth>
+          <Registration />
+          <Login />
 
-        {
-          isSignIn &&
-          <div>
-            secret info / logged
-          </div>
-        }
+          {
+            isSignIn &&
+            <div>
+              secret info / logged
+            </div>
+          }
 
-      </Auth>
+        </Auth>
+      }
     </Application>
   )
 }
 
-const ButtonsAuth = styled.div`
-  display: flex;
-  justify-content: space-between;
+const CatImage = styled.img`
+  width: 10rem;
+  height: 10rem;
 `
 
 const Auth = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  gap: 2rem;
   border: 1px solid black;
   border-radius: 15px;
   padding: 1rem;
-`
-
-const UserNameInput = styled.input`
-  padding: 0.5rem;
-`
-
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
 `
 
 const Image = styled.img`
