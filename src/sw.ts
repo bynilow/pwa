@@ -4,6 +4,7 @@ import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
 import { BTC_API, POSTS_API } from './const/const';
+import { sendNotification } from './functions/setNotifications';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -21,6 +22,14 @@ self.addEventListener('push', event => {
         self.registration.showNotification(title || 'null notification text')
     )
 });
+
+self.addEventListener('sync', event => {
+    ///@ts-ignore
+    if (event.tag === 'check-update') {
+        ///@ts-ignore
+        event.waitUntil(sendNotification('Got update!'));
+    }
+})
 
 const DYNAMIC_CACHE_NAME = 'dynamic';
 const IMAGES_CACHE_NAME = 'images';

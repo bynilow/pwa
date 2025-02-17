@@ -11,10 +11,9 @@ export const requestBackgroundSyncPermission = async () => {
 }
 
 export const getSync = async () => {
-    const registration = await navigator.serviceWorker.ready;
+    const registration: ServiceWorkerRegistration = await navigator.serviceWorker.ready;
     if (registration) {
-        registration.onupdatefound = () => {
-            sendNotification('Got new update!');
-        }
+        ///@ts-ignore
+        registration.sync.register('check-update');
     }
 }
