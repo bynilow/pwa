@@ -1,6 +1,7 @@
 import { FC, FormEvent, useState } from "react";
 import styled from "styled-components";
 import { IUser } from "../models/IUser";
+import { sendNotification } from "../../functions/setNotifications";
 
 interface LoginProps {
 
@@ -29,9 +30,9 @@ const Login: FC<LoginProps> = () => {
                             id: foundedUser.data.rawId
                         }],
                     }
-                })
-                new Notification('login success!')
-                console.log(data)
+                });
+                sendNotification('login success!');
+                console.log(data);
 
                 // const data = await navigator.credentials.get({
                 //     publicKey: {
@@ -47,10 +48,10 @@ const Login: FC<LoginProps> = () => {
             }
             catch (error) {
                 console.log(error)
-                new Notification('login failed')
+                sendNotification('login failed!');
             }
         } else {
-            new Notification('user not found')
+            sendNotification('user not found.');
         }
 
 

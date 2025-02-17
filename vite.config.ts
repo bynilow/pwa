@@ -33,7 +33,7 @@ const manifest: Partial<ManifestOptions> = {
       form_factor: "narrow"
     }
   ],
-  orientation: "portrait",
+  orientation: "any",
   display: "standalone",
   lang: "ru-RU",
   name: "PWA Full Name",

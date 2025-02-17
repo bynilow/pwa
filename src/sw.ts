@@ -14,6 +14,8 @@ self.addEventListener('install', (event) => {
 precacheAndRoute(self.__WB_MANIFEST);
 
 self.addEventListener('push', event => {
+    console.log('push event: ')
+    console.log(event)
     const title = event.data?.text();
     event.waitUntil(
         self.registration.showNotification(title || 'null notification text')

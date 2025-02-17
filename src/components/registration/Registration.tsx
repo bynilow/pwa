@@ -1,5 +1,6 @@
 import { FC, FormEvent, useState } from "react";
 import styled from "styled-components";
+import { sendNotification } from "../../functions/setNotifications";
 
 interface RegistrationProps {
 
@@ -48,7 +49,7 @@ const Registration: FC<RegistrationProps> = () => {
                 window.users = [{ username, data }];
             }
 
-            new Notification('registration succes');
+            sendNotification('registration success!');
         }
         catch (error) {
             console.log(error)

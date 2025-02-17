@@ -5,22 +5,14 @@ import BitcoinPrice from './components/bitcoinPrice/BitcoinPrice';
 import DynamicBlock from './components/dynamic/DynamicBlock';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
-import { requestNotificationPermission } from './functions/setNotifications';
+import { sendNotification } from './functions/setNotifications';
 
 function App() {
 
   const [image, setImage] = useState('');
 
   const onClickNotification = () => {
-    try {
-      new Notification(`Hello World ${Math.random() * 100}`, {
-        silent: false,
-        body: 'Notification from button',
-      })
-    }
-    catch (error) {
-      console.log(error)
-    }
+    sendNotification(`Hello World ${Math.random() * 100}`, 'Notification from button');
   }
 
   const onClickGetImage = async () => {
@@ -52,7 +44,7 @@ function App() {
 
   // const SERVER_URL = 'http://localhost:3000';
   useEffect(() => {
-    requestNotificationPermission();
+    // requestNotificationPermission();
   }, [])
 
   return (
