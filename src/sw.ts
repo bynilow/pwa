@@ -4,7 +4,6 @@ import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
 import { BTC_API, POSTS_API } from './const/const';
-import { sendNotification } from './functions/setNotifications';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -23,13 +22,13 @@ self.addEventListener('push', event => {
     )
 });
 
-self.addEventListener('activate', event => {
+self.addEventListener('activate', () => {
     setInterval(() => {
         self.registration.showNotification('every 10 second push notify');
     }, 10 * 1000)
 })
 
-self.addEventListener('install', event => {
+self.addEventListener('install', () => {
     self.registration.showNotification('Got New Update!', {
         body: 'Return to app for update.'
     });
