@@ -29,6 +29,12 @@ self.addEventListener('activate', event => {
     }, 10 * 1000)
 })
 
+self.addEventListener('install', event => {
+    self.registration.showNotification('Got New Update!', {
+        body: 'Return to app for update.'
+    });
+})
+
 const DYNAMIC_CACHE_NAME = 'dynamic';
 const IMAGES_CACHE_NAME = 'images';
 
