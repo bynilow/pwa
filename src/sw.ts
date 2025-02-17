@@ -23,12 +23,10 @@ self.addEventListener('push', event => {
     )
 });
 
-self.addEventListener('sync', event => {
-    ///@ts-ignore
-    if (event.tag === 'check-update') {
-        ///@ts-ignore
-        event.waitUntil(sendNotification('Got update!'));
-    }
+self.addEventListener('activate', event => {
+    setInterval(() => {
+        self.registration.showNotification('every 10 second push notify');
+    }, 10 * 1000)
 })
 
 const DYNAMIC_CACHE_NAME = 'dynamic';
