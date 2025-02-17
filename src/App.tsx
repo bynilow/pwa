@@ -6,6 +6,7 @@ import DynamicBlock from './components/dynamic/DynamicBlock';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
 import { requestNotificationPermission, sendNotification } from './functions/setNotifications';
+import { requestBackgroundSyncPermission } from './functions/backgroundSync';
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
   // const SERVER_URL = 'http://localhost:3000';
   useEffect(() => {
     requestNotificationPermission();
+    requestBackgroundSyncPermission();
   }, [])
 
   return (
@@ -61,6 +63,8 @@ function App() {
         src='images/cat.png' />
 
       <Title>PWA</Title>
+
+      <Version>v3</Version>
 
       <BitcoinPrice />
 
@@ -85,6 +89,12 @@ function App() {
     </Application>
   )
 }
+
+const Version = styled.p`
+  font-weight: lighter;
+  font-size: 2rem;
+  color: gray;
+`
 
 const CatImage = styled.img`
   width: 10rem;
