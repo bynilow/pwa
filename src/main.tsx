@@ -1,8 +1,7 @@
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import { createRoot } from 'react-dom/client';
 import { registerSW } from 'virtual:pwa-register';
-import { requestNotificationPermission } from './functions/setNotifications.ts';
+import App from './App.tsx';
+import './index.css';
 
 registerSW({
   immediate: true
