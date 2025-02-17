@@ -49,11 +49,11 @@ export default defineConfig({
       base: './',
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{html,css,js,png}'], // Указываем, какие ресурсы предкэшировать
+        globPatterns: ['**/*.{html,css,js}'], // Указываем, какие ресурсы предкэшировать
       },
       manifest: manifest,
       srcDir: 'src',
-      filename: 'sw.js',
+      filename: 'sw.ts',
       strategies: 'injectManifest',
     })
   ],

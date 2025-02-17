@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
+import { POSTS_API } from "../../const/const";
 
 interface DynamicBlockProps {
 
@@ -21,7 +22,7 @@ const DynamicBlock: FC<DynamicBlockProps> = () => {
                 isError: false
             });
 
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10');
+            const response = await fetch(POSTS_API);
             const parsedPosts = await response.json();
             setPosts(parsedPosts);
             console.log('posts loaded: ', parsedPosts);

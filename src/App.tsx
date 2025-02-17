@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import './App.css';
-import DynamicBlock from './dynamic/DynamicBlock';
-import Login from './login/Login';
-import Registration from './registration/Registration';
+import DynamicBlock from './components/dynamic/DynamicBlock';
+import Login from './components/login/Login';
+import Registration from './components/registration/Registration';
+import BitcoinPrice from './components/bitcoinPrice/BitcoinPrice';
 
 function App() {
 
@@ -62,7 +63,9 @@ function App() {
       <CatImage
         src='images/cat.png' />
 
-      <Title>PWA</Title>
+      <Title>PWA build 1</Title>
+
+      <BitcoinPrice />
 
       <DynamicBlock />
 
