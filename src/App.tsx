@@ -5,7 +5,7 @@ import BitcoinPrice from './components/bitcoinPrice/BitcoinPrice';
 import DynamicBlock from './components/dynamic/DynamicBlock';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
-import { sendNotification } from './functions/setNotifications';
+import { requestNotificationPermission, sendNotification } from './functions/setNotifications';
 
 function App() {
 
@@ -44,7 +44,7 @@ function App() {
 
   // const SERVER_URL = 'http://localhost:3000';
   useEffect(() => {
-    // requestNotificationPermission();
+    requestNotificationPermission();
   }, [])
 
   return (
@@ -60,7 +60,7 @@ function App() {
       <CatImage
         src='images/cat.png' />
 
-      <Title>PWA new</Title>
+      <Title>PWA</Title>
 
       <BitcoinPrice />
 

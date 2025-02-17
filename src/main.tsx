@@ -5,10 +5,7 @@ import { registerSW } from 'virtual:pwa-register';
 import { requestNotificationPermission } from './functions/setNotifications.ts';
 
 registerSW({
-  immediate: true,
-  onRegisteredSW: () => {
-    requestNotificationPermission()
-  }
+  immediate: true
 });
 
 createRoot(document.getElementById('root')!).render(
