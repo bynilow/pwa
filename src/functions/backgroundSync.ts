@@ -1,4 +1,3 @@
-import { sendNotification } from "./setNotifications";
 
 export const requestBackgroundSyncPermission = async () => {
     ///@ts-ignore
