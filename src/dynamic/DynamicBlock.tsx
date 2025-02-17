@@ -9,14 +9,33 @@ const DynamicBlock: FC<DynamicBlockProps> = () => {
 
     // const [isLoading, setIsLoading] = useState(false);
     const [posts, setPosts] = useState<any[]>([]);
+    const [status, setStatus] = useState({
+        isLoading: false,
+        isError: false,
+    });
 
     const getPosts = async () => {
         try {
-            const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5');
-            const posts = await response.json();
-            setPosts(posts);
+            setStatus({
+                isLoading: true,
+                isError: false
+            });
+
+            const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10');
+            const parsedPosts = await response.json();
+            setPosts(parsedPosts);
+            console.log('posts loaded: ', parsedPosts);
+
+            setStatus({
+                isLoading: false,
+                isError: false
+            });
         }
         catch (error) {
+            setStatus({
+                isLoading: false,
+                isError: true
+            });
             console.log(error)
         }
     }
@@ -30,15 +49,21 @@ const DynamicBlock: FC<DynamicBlockProps> = () => {
             <Title>
                 Dynamic from api
             </Title>
-            <List>
-                {
-                    posts.map((post, ind) => <Post key={ind}>
+            {
+                !status.isLoading && !status.isError
+                    ? <List>
                         {
-                            post.title
+                            posts.map((post, ind) => <Post key={ind}>
+                                {
+                                    post.title
+                                }
+                            </Post>)
                         }
-                    </Post>)
-                }
-            </List>
+                    </List>
+                    : status.isError
+                        ? <p>something got wrong</p>
+                        : <p>loading</p>
+            }
         </Block>
     );
 }

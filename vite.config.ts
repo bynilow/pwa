@@ -36,7 +36,7 @@ const manifest: Partial<ManifestOptions> = {
   orientation: "portrait",
   display: "standalone",
   lang: "ru-RU",
-  name: "PWA Full Name MANIFEST",
+  name: "PWA Full Name",
   short_name: "PWA Short Name",
   start_url: "/"
 }

@@ -1,6 +1,5 @@
 import { FC, FormEvent, useState } from "react";
 import styled from "styled-components";
-import { IUser } from "../models/IUser";
 
 interface RegistrationProps {
 
@@ -16,13 +15,13 @@ const Registration: FC<RegistrationProps> = () => {
         try {
             const options: CredentialCreationOptions = {
                 publicKey: {
-                    challenge: new Uint8Array(16),
+                    challenge: new Uint8Array(22),
                     rp: {
                         name: 'PWA',
                         id: window.location.hostname
                     },
                     user: {
-                        id: new Uint8Array(16),
+                        id: new Uint8Array(22),
                         name: username,
                         displayName: username
                     },
@@ -39,15 +38,15 @@ const Registration: FC<RegistrationProps> = () => {
 
             const data = await navigator.credentials.create(options);
             console.log('created creds: ', data)
-            let users = localStorage.users;
-            let parsedUsers: IUser[] = [];
+            ///@ts-ignore
+            let users = window.users;
             if (users) {
-                parsedUsers = JSON.parse(users);
-                parsedUsers.push({ username, data })
+                ///@ts-ignore
+                window.users.push({ username, data });
             } else {
-                parsedUsers = [{ username, data }];
+                ///@ts-ignore
+                window.users = [{ username, data }];
             }
-            localStorage.users = JSON.stringify(parsedUsers);
 
             new Notification('registration succes');
         }

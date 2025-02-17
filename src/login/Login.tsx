@@ -13,17 +13,20 @@ const Login: FC<LoginProps> = () => {
     const onLogin = async (event: FormEvent) => {
         event.preventDefault();
 
-        const parsedUsers: IUser[] = JSON.parse(localStorage.users);
-        const foundedUser = parsedUsers.find(user => user.username === username);
+        ///@ts-ignore
+        const users: IUser[] = window.users;
+        const foundedUser = users.find(user => user.username === username);
         if (foundedUser && foundedUser.data) {
             try {
                 const encodedStringId = new TextEncoder().encode(foundedUser.data.id);
+                console.log(encodedStringId)
                 const data = await navigator.credentials.get({
                     publicKey: {
-                        challenge: new Uint8Array(16),
+                        challenge: new Uint8Array(22),
                         allowCredentials: [{
                             type: 'public-key',
-                            id: encodedStringId
+                            ///@ts-ignore
+                            id: foundedUser.data.rawId
                         }],
                     }
                 })

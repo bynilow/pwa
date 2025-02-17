@@ -4,7 +4,6 @@ import { precacheAndRoute } from 'workbox-precaching';
 import { CacheFirst, NetworkFirst } from 'workbox-strategies';
 import { registerRoute } from 'workbox-routing';
 import { ExpirationPlugin } from 'workbox-expiration';
-import { offlineFallback } from 'workbox-recipes';
 import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 
 self.skipWaiting();
@@ -12,7 +11,7 @@ self.skipWaiting();
 precacheAndRoute(self.__WB_MANIFEST);
 
 const imageCacheName = 'i-1';
-const dynamicCacheName = 'd-1';
+const dynamicCacheName = 'd-2';
 const staticCacheName = 's-1';
 
 ///кэш изображения
@@ -55,14 +54,13 @@ registerRoute(
             new ExpirationPlugin({
                 maxEntries: 100,
                 maxAgeSeconds: 60 * 60 * 24 * 30 // 30 d
+            }),
+            new workbox.cacheableResponse.Plugin({
+                statuses: [200]
             })
         ]
     })
 );
-
-offlineFallback({
-    pageFallback: '/offline.html',
-});
 
 registerRoute(
     (request) => console.log(request)
