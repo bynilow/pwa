@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import './App.css';
+import BitcoinPrice from './components/bitcoinPrice/BitcoinPrice';
 import DynamicBlock from './components/dynamic/DynamicBlock';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
-import BitcoinPrice from './components/bitcoinPrice/BitcoinPrice';
+import { requestNotificationPermission } from './functions/setNotifications';
 
 function App() {
 
@@ -12,8 +13,10 @@ function App() {
 
   const onClickNotification = () => {
     try {
-      Notification.requestPermission();
-      new Notification('hello world')
+      new Notification(`Hello World ${Math.random() * 100}`, {
+        silent: false,
+        body: 'Notification from button',
+      })
     }
     catch (error) {
       console.log(error)
@@ -48,7 +51,9 @@ function App() {
   }
 
   // const SERVER_URL = 'http://localhost:3000';
-
+  useEffect(() => {
+    requestNotificationPermission();
+  }, [])
 
   return (
     <Application>
@@ -63,7 +68,7 @@ function App() {
       <CatImage
         src='images/cat.png' />
 
-      <Title>PWA build 1</Title>
+      <Title>PWA new</Title>
 
       <BitcoinPrice />
 

@@ -29,6 +29,8 @@ const BitcoinPrice: FC<BitcoinPriceProps> = () => {
     }
 
     useEffect(() => {
+        getBitcoinPrice();
+
         const interval = setInterval(() => {
             getBitcoinPrice();
         }, 2000)

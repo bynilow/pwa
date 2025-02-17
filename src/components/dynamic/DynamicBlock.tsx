@@ -48,7 +48,7 @@ const DynamicBlock: FC<DynamicBlockProps> = () => {
     return (
         <Block>
             <Title>
-                Dynamic from api
+                POSTS
             </Title>
             {
                 !status.isLoading && !status.isError

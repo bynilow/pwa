@@ -30,6 +30,7 @@ const Login: FC<LoginProps> = () => {
                         }],
                     }
                 })
+                new Notification('login success!')
                 console.log(data)
 
                 // const data = await navigator.credentials.get({

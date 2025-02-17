@@ -2,22 +2,30 @@ import { CacheableResponsePlugin } from 'workbox-cacheable-response';
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
+import { StaleWhileRevalidate } from 'workbox-strategies';
 import { BTC_API, POSTS_API } from './const/const';
 
 declare const self: ServiceWorkerGlobalScope;
 
+self.addEventListener('install', (event) => {
+    event.waitUntil(self.skipWaiting());
+});
+
 precacheAndRoute(self.__WB_MANIFEST);
 
-self.skipWaiting();
+self.addEventListener('push', event => {
+    const title = event.data?.text();
+    event.waitUntil(
+        self.registration.showNotification(title || 'null notification text')
+    )
+});
 
-const POSTS_CACHE_NAME = 'posts';
+const DYNAMIC_CACHE_NAME = 'dynamic';
 const IMAGES_CACHE_NAME = 'images';
-const BTC_CACHE_NAME = 'btc';
 
 ///кэш изображений из папки images
 registerRoute(
-    '/images/',
+    ({ request }) => request.destination === 'image' && '/\.png/',
     new StaleWhileRevalidate({
         cacheName: IMAGES_CACHE_NAME,
         plugins: [
@@ -32,11 +40,16 @@ registerRoute(
     })
 );
 
-///кэш цены
+const URLS_TO_CACHE = [
+    BTC_API,
+    POSTS_API
+]
+
+///кэш динамики
 registerRoute(
-    ({ url }) => url.href === BTC_API,
-    new NetworkFirst({
-        cacheName: BTC_CACHE_NAME,
+    ({ url }) => URLS_TO_CACHE.includes(url.href),
+    new StaleWhileRevalidate({
+        cacheName: DYNAMIC_CACHE_NAME,
         plugins: [
             new CacheableResponsePlugin({
                 statuses: [200]
@@ -49,24 +62,7 @@ registerRoute(
     })
 );
 
-///кэш постов
-registerRoute(
-    ({ url }) => url.href === POSTS_API,
-    new NetworkFirst({
-        cacheName: POSTS_CACHE_NAME,
-        plugins: [
-            new CacheableResponsePlugin({
-                statuses: [200]
-            }),
-            new ExpirationPlugin({
-                maxEntries: 30,
-                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 Days
-            }),
-        ]
-    })
-);
-
-registerRoute(
-    ({ request }) => console.log(request)
-);
+// registerRoute(
+//     ({ request }) => console.log(request)
+// );
 
