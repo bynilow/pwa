@@ -6,7 +6,6 @@ import DynamicBlock from './components/dynamic/DynamicBlock';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
 import { VERSION } from './const/const';
-import { createCheckUpdate } from './functions/backgroundSync';
 import { requestNotificationPermission, sendNotification } from './functions/setNotifications';
 
 function App() {
