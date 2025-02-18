@@ -29,7 +29,7 @@ self.addEventListener('periodicsync', event => {
     if (event.tag === CHECK_UPDATE_SYNC_ID && localStorage.version !== VERSION) {
         //@ts-ignore
         event.waitUntil(
-            sendNotification('Got new update!', 'Return to app for update.')
+            sendNotification('Got new update!', `Return to app for update to v${VERSION}.`)
         )
     }
 })
