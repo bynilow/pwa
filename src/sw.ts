@@ -13,10 +13,18 @@ self.addEventListener('install', (event) => {
     event.waitUntil(self.skipWaiting());
 });
 
-self.addEventListener('activate', () => {
-    localStorage.version = JSON.stringify(VERSION);
-    console.log(VERSION);
-    createCheckUpdate();
+self.addEventListener('activate', async () => {
+    const registration = await navigator.serviceWorker.getRegistration();
+    if (!registration) {
+        throw new Error('Dont have registration for SW');
+    }
+    setInterval(() => {
+        registration.update();
+        sendNotification('cheching for updates...');
+    }, 1000 * 30)
+    registration.onupdatefound = () => {
+        sendNotification('Got new update!', `Return to app for update.`)
+    }
 })
 
 precacheAndRoute(self.__WB_MANIFEST);
