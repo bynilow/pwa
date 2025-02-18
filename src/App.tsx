@@ -6,7 +6,7 @@ import DynamicBlock from './components/dynamic/DynamicBlock';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
 import { requestNotificationPermission, sendNotification } from './functions/setNotifications';
-import { requestBackgroundSyncPermission } from './functions/backgroundSync';
+import { createBackgroundSyncPermission } from './functions/backgroundSync';
 
 function App() {
 
@@ -46,7 +46,7 @@ function App() {
   // const SERVER_URL = 'http://localhost:3000';
   useEffect(() => {
     requestNotificationPermission();
-    requestBackgroundSyncPermission();
+    createBackgroundSyncPermission();
   }, [])
 
   return (
@@ -64,7 +64,7 @@ function App() {
 
       <Title>PWA</Title>
 
-      <Version>v7</Version>
+      <Version>v8</Version>
 
       <BitcoinPrice />
 
@@ -72,7 +72,7 @@ function App() {
 
       <ButtonsGroup>
         <Button onClick={onClickNotification}>
-          Push notif
+          Push
         </Button>
         <Button onClick={onClickGetImage}>
           Get image

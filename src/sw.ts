@@ -3,7 +3,8 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
-import { BTC_API, POSTS_API } from './const/const';
+import { BTC_API, CHECK_UPDATE_SYNC_ID, POSTS_API } from './const/const';
+import { sendNotification } from './functions/setNotifications';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -22,10 +23,14 @@ self.addEventListener('push', event => {
     )
 });
 
-self.addEventListener('activate', () => {
-    setInterval(() => {
-        self.registration.showNotification('every 10 second push notify');
-    }, 10 * 1000)
+self.addEventListener('periodicsync', event => {
+    //@ts-ignore
+    if (event.tag === CHECK_UPDATE_SYNC_ID) {
+        //@ts-ignore
+        event.waitUntil(
+            sendNotification('Got new update!', 'Return to app for update.')
+        )
+    }
 })
 
 self.addEventListener('install', () => {

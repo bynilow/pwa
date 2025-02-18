@@ -1,18 +1,30 @@
+import { CHECK_UPDATE_SYNC_ID } from "../const/const";
 
-export const requestBackgroundSyncPermission = async () => {
-    ///@ts-ignore
-    const status = await navigator.permissions.query({ name: 'periodic-background-sync' });
-    if (status.state === 'granted') {
-        getSync();
-    } else {
-        throw new Error('Permission dont granted');
+export const createBackgroundSyncPermission = async () => {
+    const canPeriodicSync =
+        'serviceWorker' in navigator &&
+        'PeriodicSyncManager' in window;
+
+    if (!canPeriodicSync) {
+        throw new Error('Periodic Background Sync is not supported')
     }
-}
 
-export const getSync = async () => {
-    const registration: ServiceWorkerRegistration = await navigator.serviceWorker.ready;
-    if (registration) {
+    const registration = await navigator.serviceWorker.ready;
+    const status = await navigator.permissions.query({
         ///@ts-ignore
-        registration.sync.register('check-update');
+        name: 'periodic-background-sync',
+    });
+    if (status.state !== 'granted') {
+        console.log('Periodic Background Sync is not granted.');
+        throw new Error('Background Sync is not granted')
+    }
+    try {
+        ///@ts-ignore
+        await registration.periodicSync.register(CHECK_UPDATE_SYNC_ID, {
+            minInterval: 1000 * 60, /// every 1 min
+        });
+
+    } catch (error) {
+        console.error('Periodic Background Sync registration failed', error);
     }
 }
