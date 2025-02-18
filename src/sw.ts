@@ -5,6 +5,7 @@ import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
 import { BTC_API, CHECK_UPDATE_SYNC_ID, POSTS_API, VERSION } from './const/const';
 import { sendNotification } from './functions/setNotifications';
+import { createCheckUpdate } from './functions/backgroundSync';
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -15,6 +16,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', () => {
     localStorage.version = JSON.stringify(VERSION);
     console.log(VERSION);
+    createCheckUpdate();
 })
 
 precacheAndRoute(self.__WB_MANIFEST);

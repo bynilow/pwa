@@ -47,7 +47,6 @@ function App() {
   // const SERVER_URL = 'http://localhost:3000';
   useEffect(() => {
     requestNotificationPermission();
-    createCheckUpdate();
   }, [])
 
   return (
