@@ -3,13 +3,14 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
-import { BTC_API, CHECK_UPDATE_SYNC_ID, POSTS_API } from './const/const';
+import { BTC_API, CHECK_UPDATE_SYNC_ID, POSTS_API, VERSION } from './const/const';
 import { sendNotification } from './functions/setNotifications';
 
 declare const self: ServiceWorkerGlobalScope;
 
 self.addEventListener('install', (event) => {
     event.waitUntil(self.skipWaiting());
+    localStorage.version = VERSION;
 });
 
 precacheAndRoute(self.__WB_MANIFEST);
@@ -25,18 +26,12 @@ self.addEventListener('push', event => {
 
 self.addEventListener('periodicsync', event => {
     //@ts-ignore
-    if (event.tag === CHECK_UPDATE_SYNC_ID) {
+    if (event.tag === CHECK_UPDATE_SYNC_ID && localStorage.version !== VERSION) {
         //@ts-ignore
         event.waitUntil(
             sendNotification('Got new update!', 'Return to app for update.')
         )
     }
-})
-
-self.addEventListener('install', () => {
-    self.registration.showNotification('Got New Update!', {
-        body: 'Return to app for update.'
-    });
 })
 
 const DYNAMIC_CACHE_NAME = 'dynamic';

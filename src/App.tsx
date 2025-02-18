@@ -7,6 +7,7 @@ import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
 import { requestNotificationPermission, sendNotification } from './functions/setNotifications';
 import { createBackgroundSyncPermission } from './functions/backgroundSync';
+import { VERSION } from './const/const';
 
 function App() {
 
@@ -64,7 +65,7 @@ function App() {
 
       <Title>PWA</Title>
 
-      <Version>v11</Version>
+      <Version>v{VERSION}</Version>
 
       <BitcoinPrice />
 
