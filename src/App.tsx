@@ -64,7 +64,7 @@ function App() {
 
       <Title>PWA</Title>
 
-      <Version>v8</Version>
+      <Version>v9</Version>
 
       <BitcoinPrice />
 
