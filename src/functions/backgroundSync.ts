@@ -1,4 +1,5 @@
 import { CHECK_UPDATE_SYNC_ID } from "../const/const";
+import { sendNotification } from "./setNotifications";
 
 export const createBackgroundSyncPermission = async () => {
     const canPeriodicSync =
@@ -26,5 +27,22 @@ export const createBackgroundSyncPermission = async () => {
 
     } catch (error) {
         console.error('Periodic Background Sync registration failed', error);
+    }
+}
+
+export const createCheckUpdate = async () => {
+    if ('serviceWorker' in navigator) {
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (!registration) {
+            throw new Error('Dont have registration for SW');
+        }
+        setInterval(() => {
+            registration.update();
+            sendNotification('cheching for updates...');
+        }, 1000 * 60)
+        registration.onupdatefound = () => {
+            sendNotification('Got new update!', `Return to app for update.`)
+        }
+
     }
 }

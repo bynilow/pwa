@@ -10,8 +10,12 @@ declare const self: ServiceWorkerGlobalScope;
 
 self.addEventListener('install', (event) => {
     event.waitUntil(self.skipWaiting());
-    localStorage.version = VERSION;
 });
+
+self.addEventListener('activate', () => {
+    localStorage.version = JSON.stringify(VERSION);
+    console.log(VERSION);
+})
 
 precacheAndRoute(self.__WB_MANIFEST);
 
@@ -26,7 +30,8 @@ self.addEventListener('push', event => {
 
 self.addEventListener('periodicsync', event => {
     //@ts-ignore
-    if (event.tag === CHECK_UPDATE_SYNC_ID && localStorage.version !== VERSION) {
+    if (event.tag === CHECK_UPDATE_SYNC_ID) {
+        console.log(localStorage.version)
         //@ts-ignore
         event.waitUntil(
             sendNotification('Got new update!', `Return to app for update to v${VERSION}.`)

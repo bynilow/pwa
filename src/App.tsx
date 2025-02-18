@@ -5,9 +5,9 @@ import BitcoinPrice from './components/bitcoinPrice/BitcoinPrice';
 import DynamicBlock from './components/dynamic/DynamicBlock';
 import Login from './components/login/Login';
 import Registration from './components/registration/Registration';
-import { requestNotificationPermission, sendNotification } from './functions/setNotifications';
-import { createBackgroundSyncPermission } from './functions/backgroundSync';
 import { VERSION } from './const/const';
+import { createCheckUpdate } from './functions/backgroundSync';
+import { requestNotificationPermission, sendNotification } from './functions/setNotifications';
 
 function App() {
 
@@ -47,7 +47,7 @@ function App() {
   // const SERVER_URL = 'http://localhost:3000';
   useEffect(() => {
     requestNotificationPermission();
-    createBackgroundSyncPermission();
+    createCheckUpdate();
   }, [])
 
   return (
